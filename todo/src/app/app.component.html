@@ -4,6 +4,12 @@
 
     <input type="text" id="message" *ngIf="(user | async)?.uid" placeholder="What is it that you do?" (keyup.enter)="Send($event.target.value)" [(ngModel)]="msgVal" />
     <div id="details-container">
-        <p *ngFor="let item of items | async"><img src="../assets/pin.png">{{item.message}}</p>
+        <p *ngFor="let item of items | async">
+            <img src="../assets/pin.png">
+            <button (click)="delete(item.$key)">Delete</button>
+            <button (click)="modif(item.$key)">Modif</button>
+            <span (dblclick)="inputModBo[item.$key] = true">{{item.message}}</span>
+            <input *ngIf="inputModBo[item.$key]" type="text" [(ngModel)]="modifVariable">
+        </p>
     </div>
 </div>

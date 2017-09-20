@@ -13,13 +13,17 @@ export class AppComponent {
   user: Observable<firebase.User>;
   items: FirebaseListObservable<any[]>;
   msgVal: string = '';
+  inputModBo = {};
+  modifVariable:string = '';
 
   constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase) {
     this.items = af.list('/messages', {
       query: {
         limitToLast: 50
       }
+      
     });
+
     
     this.user = this.afAuth.authState;
 
@@ -36,4 +40,11 @@ export class AppComponent {
       this.items.push({ message: desc});
       this.msgVal = '';
   };
+  delete(msgVal:string){
+    this.items.remove(msgVal);
+  };
+  modif(msgVal:string){
+    this.inputModBo[msgVal] = false; 
+    this.items.set(msgVal, {message: this.modifVariable } );
+  }
 }
